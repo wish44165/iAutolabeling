@@ -236,7 +236,7 @@ if __name__ == '__main__':
     else:
         ################ Step 1: write .yaml file ################
         # Define YAML content
-        yaml_content = f"path: ''/home/wish/pro/ICME2024/datasets/v{i}/'\n\
+        yaml_content = f"path: '/home/wish/pro/ICME2024/datasets/v{i}/'\n\
 train: 'images/train/'\n\
 val: 'images/val/'\n\
 #test: 'images/test/'\n\
