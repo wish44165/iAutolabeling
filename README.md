@@ -19,11 +19,7 @@ $ pip install ultralytics
 <details><summary>Commands</summary>
 
 ```bash
-# demo
-$ for i in `seq 0 4`; do python train_iterative.py --n_epoch 4 --curr_iter ${i}; done
-
-# main
-$ for i in `seq 0 9`; do python train_iterative.py --curr_iter ${i}; done
+$ for i in `seq 0 9`; do python main.py --curr_iter ${i}; done
 ```
 
 </details>
