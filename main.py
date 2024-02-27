@@ -169,6 +169,8 @@ if __name__ == '__main__':
         ################ Step 4: Predict on training data ################
         # arguments: https://docs.ultralytics.com/modes/predict/
         # output: train: './runs/facial/predict/', val: './runs/facial/predict2/'
+        # error: https://github.com/ultralytics/ultralytics/issues/1713
+        # solution: https://github.com/ultralytics/ultralytics/issues/2930
         ct = 0
         datasetPath = opt.training_folder    # e.g. '../../datasets/v0/'
         imagesPath = datasetPath + 'images/'    # e.g. '../../datasets/v0/images/'
@@ -178,7 +180,8 @@ if __name__ == '__main__':
             dataPath = imagesPath + foldern + '/'    # e.g. '../../datasets/v0/images/train/'
             dataList = os.listdir(dataPath)
             dataList = sorted(dataList)
-            results = model(dataPath, save_txt=True, project=opt.save_path, name='predict', conf=BBOX_CONFIDENCE)
+            for r in model(dataPath, save_txt=True, stream=True, project=opt.save_path, name='predict', conf=BBOX_CONFIDENCE):
+                pass
 
             ################ Step 5: Implement NMS on new and old labels ################
             # output: '../../datasets/v1/'
@@ -300,7 +303,8 @@ names:\n\
             dataPath = imagesPath + foldern + '/'    # e.g. '../../datasets/v1/images/train/'
             dataList = os.listdir(dataPath)
             dataList = sorted(dataList)
-            results = model(dataPath, save_txt=True, project=opt.save_path, name='predict', conf=BBOX_CONFIDENCE)
+            for r in model(dataPath, save_txt=True, stream=True, project=opt.save_path, name='predict', conf=BBOX_CONFIDENCE):
+                pass
 
             ################ Step 5: Implement NMS on new and old labels ################
             # output: '../../datasets/v1/'
