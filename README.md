@@ -19,7 +19,7 @@ $ pip install ultralytics
 <details><summary>Commands</summary>
 
 ```bash
-$ for i in `seq 0 9`; do python main.py --curr_iter ${i}; done
+$ for i in `seq 0 9`; do python main.py --curr_iter ${i} | tee iterLog${i}; done
 ```
 
 </details>
@@ -55,9 +55,9 @@ ICME2024/
             ├── train/
             └── val/
         └── labels/
-            ├── train/
+            ├── train/save=Tr
             └── val/
-    └── v1/, v2/, ...
+    └── v1/, v2/, ...save=Tr
 ├── src/
     └── iAutolabeling/
         ├── facial.yaml
@@ -74,3 +74,5 @@ ICME2024/
 ## Acknowledgments and References
 
 - [Ultralytics](https://github.com/ultralytics/ultralytics)
+- [Model Prediction with Ultralytics YOLO](https://docs.ultralytics.com/modes/predict/)
+- [Problem](https://github.com/ultralytics/ultralytics/issues/1713#issuecomment-1605689756) ([solution](https://github.com/ultralytics/ultralytics/issues/2930#issuecomment-1571399356))
