@@ -112,7 +112,7 @@ def parse_opt(known=False):
     parser.add_argument('--yaml_path', type=str, default='./facial.yaml', help='The yaml path')
     parser.add_argument('--n_epoch', type=int, default=300, help='Total number of training epochs.')
     parser.add_argument('--n_patience', type=int, default=100, help='Number of epochs to wait without improvement in validation metrics before early stopping the training.')
-    parser.add_argument('--bs', type=int, default=32, help='Batch size')
+    parser.add_argument('--bs', type=int, default=48, help='Batch size')
     parser.add_argument('--imgsz', type=int, default=640, help='Image size')
     parser.add_argument('--n_worker', type=int, default=8, help='Number of workers')
     parser.add_argument('--save_path', type=str, default='./runs/facial/', help='Save path')
