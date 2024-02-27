@@ -178,7 +178,7 @@ if __name__ == '__main__':
             dataPath = imagesPath + foldern + '/'    # e.g. '../../datasets/v0/images/train/'
             dataList = os.listdir(dataPath)
             dataList = sorted(dataList)
-            results = model(dataPath, save=True, save_txt=True, project=opt.save_path, name='predict', conf=BBOX_CONFIDENCE)
+            results = model(dataPath, save_txt=True, project=opt.save_path, name='predict', conf=BBOX_CONFIDENCE)
 
             ################ Step 5: Implement NMS on new and old labels ################
             # output: '../../datasets/v1/'
@@ -300,7 +300,7 @@ names:\n\
             dataPath = imagesPath + foldern + '/'    # e.g. '../../datasets/v1/images/train/'
             dataList = os.listdir(dataPath)
             dataList = sorted(dataList)
-            results = model(dataPath, save=True, save_txt=True, project=opt.save_path, name='predict', conf=BBOX_CONFIDENCE)
+            results = model(dataPath, save_txt=True, project=opt.save_path, name='predict', conf=BBOX_CONFIDENCE)
 
             ################ Step 5: Implement NMS on new and old labels ################
             # output: '../../datasets/v1/'
