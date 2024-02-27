@@ -34,7 +34,7 @@ def write_keypoints(file_path, keypoints):
         for keypoint in keypoints:
             line = ' '.join(str(val) for val in keypoint) + '\n'
             file.write(line)
-
+232,
 
 def calculate_iou(box1, box2):
     # Convert YOLO format to (x1, y1, x2, y2)
@@ -124,7 +124,7 @@ def parse_opt(known=False):
     parser.add_argument('--yaml_path', type=str, default='./facial.yaml', help='The yaml path')
     parser.add_argument('--n_epoch', type=int, default=300, help='Total number of training epochs.')
     parser.add_argument('--n_patience', type=int, default=100, help='Number of epochs to wait without improvement in validation metrics before early stopping the training.')
-    parser.add_argument('--bs', type=int, default=48, help='Batch size')
+    parser.add_argument('--bs', type=int, default=32, help='Batch size')
     parser.add_argument('--imgsz', type=int, default=640, help='Image size')
     parser.add_argument('--n_worker', type=int, default=8, help='Number of workers')
     parser.add_argument('--save_path', type=str, default='./runs/facial/', help='Save path')
@@ -170,36 +170,37 @@ if __name__ == '__main__':
         # arguments: https://docs.ultralytics.com/modes/predict/
         # output: train: './runs/facial/predict/', val: './runs/facial/predict2/'
         ct = 0
-        datasetPath = opt.training_folder    # e.g. '../datasets/v0/'
-        imagesPath = datasetPath + 'images/'    # e.g. '../datasets/v0/images/'
+        datasetPath = opt.training_folder    # e.g. '../../datasets/v0/'
+        imagesPath = datasetPath + 'images/'    # e.g. '../../datasets/v0/images/'
         imagesList = os.listdir(imagesPath)
         imagesList = sorted(imagesList)    # ['train', 'val']
         for foldern in imagesList:
-            dataPath = imagesPath + foldern + '/'    # e.g. '../datasets/v0/images/train/'
+            dataPath = imagesPath + foldern + '/'    # e.g. '../../datasets/v0/images/train/'
+            dataList = os.listdir(dataPath)
+            dataList = sorted(dataList)
             results = model(dataPath, save=True, save_txt=True, project=opt.save_path, name='predict', conf=BBOX_CONFIDENCE)
 
             ################ Step 5: Implement NMS on new and old labels ################
-            # output: '../datasets/v1/'
-            trueLabelPath = datasetPath + 'labels/' + foldern + '/'    # e.g. '../datasets/v0/labels/train/'
-            trueLabelList = os.listdir(trueLabelPath)
-            trueLabelList = sorted(trueLabelList)
+            # output: '../../datasets/v1/'
+            trueLabelPath = datasetPath + 'labels/' + foldern + '/'    # e.g. '../../datasets/v0/labels/train/'
             if ct == 0:
                 predictLabelPath = opt.save_path + 'predict/' + 'labels/'    # e.g. './runs/facial/predict/labels/'
             else:
                 predictLabelPath = opt.save_path + 'predict' + str((i*2+1)+ct) + '/labels/'    # e.g. './runs/facial/predict2/labels/'
 
-            savePath = opt.generate_folder + 'v' + str(i+1) + '/'    # e.g. '../datasets/v1/'
-            saveImagePath = savePath + 'images/'    # e.g. '../datasets/v1/images/'
-            saveImageDataPath = saveImagePath + foldern + '/'    # e.g. '../datasets/v1/images/train/'
-            saveLabelPath = savePath + 'labels/'    # e.g. '../datasets/v1/labels/'
-            saveLabelDataPath = saveLabelPath + foldern + '/'    # e.g. '../datasets/v1/labels/train/'
+            savePath = opt.generate_folder + 'v' + str(i+1) + '/'    # e.g. '../../datasets/v1/'
+            saveImagePath = savePath + 'images/'    # e.g. '../../datasets/v1/images/'
+            saveImageDataPath = saveImagePath + foldern + '/'    # e.g. '../../datasets/v1/images/train/'
+            saveLabelPath = savePath + 'labels/'    # e.g. '../../datasets/v1/labels/'
+            saveLabelDataPath = saveLabelPath + foldern + '/'    # e.g. '../../datasets/v1/labels/train/'
             os.makedirs(savePath, exist_ok=True)
             os.makedirs(saveImagePath, exist_ok=True)
             os.makedirs(saveImageDataPath, exist_ok=True)
             os.makedirs(saveLabelPath, exist_ok=True)
             os.makedirs(saveLabelDataPath, exist_ok=True)
 
-            for ln in trueLabelList:
+            for fn in dataList:
+                ln = fn[:-3] + 'txt'
                 tlp = trueLabelPath + ln    # true label path
 
                 try:
@@ -228,8 +229,8 @@ if __name__ == '__main__':
                 print("Non-Maximum Suppression completed. Filtered keypoints saved to:", saveLabelDataPath + ln)
 
                 # copy image into new dataset folder
-                fp = dataPath + ln[:-3] + 'png'
-                shutil.copy(fp, saveImageDataPath + ln[:-3] + 'png')
+                fp = dataPath + fn
+                shutil.copy(fp, saveImageDataPath + fn)
 
             ct += 1
 
@@ -291,34 +292,37 @@ names:\n\
         # arguments: https://docs.ultralytics.com/modes/predict/
         # output: train: './runs/facial/predict3/', val: './runs/facial/predict4/'
         ct = 0
-        datasetPath = '../datasets/v' + str(i) + '/'    # e.g. '../datasets/v1/'
-        imagesPath = datasetPath + 'images/'    # e.g. '../datasets/v1/images/'
+        datasetPath = '../../datasets/v' + str(i) + '/'    # e.g. '../../datasets/v1/'
+        imagesPath = datasetPath + 'images/'    # e.g. '../../datasets/v1/images/'
         imagesList = os.listdir(imagesPath)
         imagesList = sorted(imagesList)    # ['train', 'val']
         for foldern in imagesList:
-            dataPath = imagesPath + foldern + '/'    # e.g. '../datasets/v1/images/train/'
+            dataPath = imagesPath + foldern + '/'    # e.g. '../../datasets/v1/images/train/'
+            dataList = os.listdir(dataPath)
+            dataList = sorted(dataList)
             results = model(dataPath, save=True, save_txt=True, project=opt.save_path, name='predict', conf=BBOX_CONFIDENCE)
 
             ################ Step 5: Implement NMS on new and old labels ################
-            # output: '../datasets/v1/'
-            trueLabelPath = datasetPath + 'labels/' + foldern + '/'    # e.g. '../datasets/v1/labels/train/'
+            # output: '../../datasets/v1/'
+            trueLabelPath = datasetPath + 'labels/' + foldern + '/'    # e.g. '../../datasets/v1/labels/train/'
             trueLabelList = os.listdir(trueLabelPath)
             trueLabelList = sorted(trueLabelList)
 
             predictLabelPath = opt.save_path + 'predict' + str((i*2+1)+ct) + '/labels/'    # e.g. './runs/facial/predict3/labels/'
 
-            savePath = opt.generate_folder + 'v' + str(i+1) + '/'    # e.g. '../datasets/v2/'
-            saveImagePath = savePath + 'images/'    # e.g. '../datasets/v2/images/'
-            saveImageDataPath = saveImagePath + foldern + '/'    # e.g. '../datasets/v2/images/train/'
-            saveLabelPath = savePath + 'labels/'    # e.g. '../datasets/v2/labels/'
-            saveLabelDataPath = saveLabelPath + foldern + '/'    # e.g. '../datasets/v2/labels/train/'
+            savePath = opt.generate_folder + 'v' + str(i+1) + '/'    # e.g. '../../datasets/v2/'
+            saveImagePath = savePath + 'images/'    # e.g. '../../datasets/v2/images/'
+            saveImageDataPath = saveImagePath + foldern + '/'    # e.g. '../../datasets/v2/images/train/'
+            saveLabelPath = savePath + 'labels/'    # e.g. '../../datasets/v2/labels/'
+            saveLabelDataPath = saveLabelPath + foldern + '/'    # e.g. '../../datasets/v2/labels/train/'
             os.makedirs(savePath, exist_ok=True)
             os.makedirs(saveImagePath, exist_ok=True)
             os.makedirs(saveImageDataPath, exist_ok=True)
             os.makedirs(saveLabelPath, exist_ok=True)
             os.makedirs(saveLabelDataPath, exist_ok=True)
 
-            for ln in trueLabelList:
+            for fn in dataList:
+                ln = fn[:-3] + 'txt'
                 tlp = trueLabelPath + ln    # true label path
 
                 try:
@@ -347,7 +351,7 @@ names:\n\
                 print("Non-Maximum Suppression completed. Filtered keypoints saved to:", saveLabelDataPath + ln)
 
                 # copy image into new dataset folder
-                fp = dataPath + ln[:-3] + 'png'
-                shutil.copy(fp, saveImageDataPath + ln[:-3] + 'png')
+                fp = dataPath + fn
+                shutil.copy(fp, saveImageDataPath + fn)
 
             ct += 1
