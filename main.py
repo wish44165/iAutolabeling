@@ -7,18 +7,12 @@ import argparse
 import numpy as np
 from ultralytics import YOLO
 
-####
-# python train_iterative.py --n_epoch 10
-####
-
-os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
+#os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
 #os.environ["OMP_NUM_THREADS"]='8'
 #os.environ["KMP_DUPLICATE_LIB_OK"]='TRUE'
 
-
 BBOX_CONFIDENCE = 0.7
 NMS_THRESHOLD = 0.3
-
 
 def read_keypoints(file_path):
     keypoints = []
@@ -28,13 +22,11 @@ def read_keypoints(file_path):
             keypoints.append([float(val) for val in data])
     return np.array(keypoints)
 
-
 def write_keypoints(file_path, keypoints):
     with open(file_path, 'w') as file:
         for keypoint in keypoints:
             line = ' '.join(str(val) for val in keypoint) + '\n'
             file.write(line)
-232,
 
 def calculate_iou(box1, box2):
     # Convert YOLO format to (x1, y1, x2, y2)
@@ -69,7 +61,6 @@ def calculate_iou(box1, box2):
 
     return iou
 
-
 def nms(true_keypoints, predict_keypoints, threshold):
     if len(predict_keypoints) == 0:
         return []
@@ -95,7 +86,6 @@ def nms(true_keypoints, predict_keypoints, threshold):
         
     return np.array(picked)
 
-
 # Function to parse the data and extract bounding box coordinates
 def parse_data(data):
     boxes = []
@@ -111,7 +101,6 @@ def parse_data(data):
 
     return boxes, keypoints
 
-
 def parse_opt(known=False):
     parser = argparse.ArgumentParser()
 
@@ -119,7 +108,6 @@ def parse_opt(known=False):
     parser.add_argument('--model_name', type=str, choices=["yolov8n-pose.pt", "yolov8s-pose.pt", "yolov8m-pose.pt", 
                                                            "yolov8l-pose.pt", "yolov8x-pose.pt", "yolov8x-pose-p6.pt"], 
                                                            default='yolov8n-pose.pt', help='initial model name')
-
     # setup (fix for all time)
     parser.add_argument('--yaml_path', type=str, default='./facial.yaml', help='The yaml path')
     parser.add_argument('--n_epoch', type=int, default=300, help='Total number of training epochs.')
@@ -128,7 +116,7 @@ def parse_opt(known=False):
     parser.add_argument('--imgsz', type=int, default=640, help='Image size')
     parser.add_argument('--n_worker', type=int, default=8, help='Number of workers')
     parser.add_argument('--save_path', type=str, default='./runs/facial/', help='Save path')
-
+    
     # predict (will change)
     parser.add_argument('--curr_iter', type=int, default=0, help='current iteration')
     parser.add_argument('--predict_weight', type=str, default='', help='previous best weight')
@@ -146,7 +134,6 @@ if __name__ == '__main__':
     print('='*160)
     print('iter:', i)
     print('='*160)
-
 
     if i == 0:
         ################ Step 1: Load a pretrained model ################
