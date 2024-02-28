@@ -27,7 +27,7 @@ $ for i in `seq 0 9`; do python main.py --curr_iter ${i} | tee iterLog${i}; done
 
 <details><summary>Folder Structure</summary>
 
-## Initial folder structure
+## Initial
 
 ```bash
 ICME2024/
@@ -45,7 +45,7 @@ ICME2024/
         └── iAutolabel.py
 ```
 
-## After executed folder structure
+## After executed
 
 ```bash
 ICME2024/
@@ -55,9 +55,9 @@ ICME2024/
             ├── train/
             └── val/
         └── labels/
-            ├── train/save=Tr
+            ├── train/
             └── val/
-    └── v1/, v2/, ...save=Tr
+    └── v1/, v2/, ...
 ├── src/
     └── iAutolabeling/
         ├── facial.yaml
