@@ -42,7 +42,7 @@ ICME2024/
 └── src/
     └── iAutolabeling/
         ├── facial.yaml
-        └── iAutolabel.py
+        └── main.py
 ```
 
 ## After executed
@@ -61,7 +61,9 @@ ICME2024/
 ├── src/
     └── iAutolabeling/
         ├── facial.yaml
-        ├── iAutolabel.py
+        ├── main.py
+        ├── facial_v1.yaml, facial_v2.yaml, ...
+        ├── iterLog0.txt, iterLog1.txt, ...
         └── runs/
             └── facial/
                 ├── train/, train2/, ...
