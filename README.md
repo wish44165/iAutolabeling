@@ -19,7 +19,7 @@ $ pip install ultralytics
 <details><summary>Commands</summary>
 
 ```bash
-$ for i in `seq 0 9`; do python main.py --curr_iter ${i} | tee iterLog${i}; done
+$ for i in `seq 0 9`; do python main.py --curr_iter ${i} | tee iterLog${i}.txt; done
 ```
 
 </details>
