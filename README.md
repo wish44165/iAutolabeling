@@ -1,6 +1,10 @@
-# iterative auto labeling
+## Iterative Refinement Strategy for Automated Data Labeling
 
-iterative auto label strategy combine with nms
+
+The code has been successfully tested on Ubuntu 22.04.
+
+
+<img src="https://github.com/wish44165/iAutolabeling/blob/main/assets/Fig2.png" alt="iAutolabeling" width="70%" >
 
 
 <details><summary>Create Conda Environment</summary>
@@ -27,7 +31,7 @@ $ for i in `seq 0 9`; do python main.py --curr_iter ${i} | tee iterLog${i}.txt; 
 
 <details><summary>Folder Structure</summary>
 
-## Initial
+### Initial
 
 ```bash
 ICME2024/
@@ -45,7 +49,7 @@ ICME2024/
         └── main.py
 ```
 
-## After executed
+### After executed
 
 ```bash
 ICME2024/
@@ -73,8 +77,25 @@ ICME2024/
 </details>
 
 
-## Acknowledgments and References
+
+
+### Acknowledgments
 
 - [Ultralytics](https://github.com/ultralytics/ultralytics)
 - [Model Prediction with Ultralytics YOLO](https://docs.ultralytics.com/modes/predict/)
 - [Problem](https://github.com/ultralytics/ultralytics/issues/1713#issuecomment-1605689756) ([solution](https://github.com/ultralytics/ultralytics/issues/2930#issuecomment-1571399356))
+
+
+
+
+### Citation
+```
+@misc{chen2024iterative,
+      title={Iterative Refinement Strategy for Automated Data Labeling: Facial Landmark Diagnosis in Medical Imaging}, 
+      author={Yu-Hsi Chen},
+      year={2024},
+      eprint={2404.05348},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+```
